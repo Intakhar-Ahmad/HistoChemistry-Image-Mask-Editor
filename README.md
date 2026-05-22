@@ -1,83 +1,63 @@
 # HistoChemistry Image Mask Editor
 
-A lightweight Python/Tkinter desktop tool for histochemistry and microscopy image annotation. The app detects dark pixels using thresholding, displays them as a red overlay, and allows manual multi-class line annotation using five user-selectable colors. It can export the edited overlay, a color-coded mask, and a combined binary mask.
+HistoChemistry Image Mask Editor is a Python desktop tool for image masking, dark pixel detection, manual annotation, and mask export. It is designed for histology, histochemistry, microscopy, and other image analysis workflows where users need a simple graphical interface to identify dark image regions and manually add multiple annotation classes.
 
-This tool was originally designed for Black Gold and related histology/histochemistry images where dark staining needs to be highlighted, corrected, and separated from manually annotated structures.
+The tool uses a Tkinter interface and supports image upload, optional drag and drop loading, threshold based dark pixel detection, manual brush editing, and export of overlay, color mask, and binary mask images.
 
 ## Features
 
-- Load images using a file upload dialog or drag-and-drop.
-- Detect dark pixels using an adjustable grayscale threshold.
-- Apply an automatic threshold or use built-in Otsu-style auto-thresholding.
-- Show the original image with a red overlay for automatically detected dark pixels.
-- Open a second live mask window with a black background.
-- Draw manual annotations using five line classes:
-  - Type 1: Green
-  - Type 2: Yellow
-  - Type 3: Pink
-  - Type 4: Blue
-  - Type 5: Brown
-- Edit annotations with mouse controls:
-  - Left mouse drag: draw selected manual line type
-  - Right mouse drag: erase automatic and manual masks
-  - Ctrl + left mouse drag: erase alternative for some systems
-  - Mouse wheel: change brush size
-- Save outputs as PNG or TIFF.
-- Export:
-  - overlay image
-  - color mask
-  - combined binary mask
+* Load images using an upload button
+* Load images by drag and drop when tkinterdnd2 is installed
+* Detect dark pixels using an adjustable threshold
+* Display automatically detected dark pixels in red
+* Edit annotations manually with mouse based drawing and erasing
+* Use five manual annotation types with different colors
+* Adjust brush size using a slider or mouse wheel
+* View the original overlay and color mask in separate windows
+* Export the edited overlay image
+* Export a color mask image with black background
+* Export a combined binary mask
 
-## Example Use Cases
+## Annotation colors
 
-- Black Gold staining image cleanup and mask preparation.
-- Histochemistry image annotation.
-- Manual correction of threshold-based segmentation.
-- Multi-class line annotation for microscopy images.
-- Preparing masks for downstream image analysis workflows.
+Automatic dark pixel mask: red
+
+Manual Type 1: green
+
+Manual Type 2: yellow
+
+Manual Type 3: pink
+
+Manual Type 4: blue
+
+Manual Type 5: brown
+
+## Mouse controls
+
+Draw selected annotation type: left mouse drag
+
+Erase annotation: right mouse drag
+
+Alternative erase on Mac: Ctrl plus left mouse drag
+
+Change brush size: mouse wheel
 
 ## Installation
 
-### 1. Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/HistoChemistry-Image-Mask-Editor.git
 cd HistoChemistry-Image-Mask-Editor
 ```
 
-### 2. Create a virtual environment
-
-Windows:
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-macOS/Linux:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
+Install the required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If drag-and-drop does not work, make sure `tkinterdnd2` is installed:
-
-```bash
-pip install tkinterdnd2
-```
-
-The upload button will still work even if drag-and-drop is unavailable.
-
-## Requirements
-
-The core dependencies are:
+Required Python packages:
 
 ```text
 pillow
@@ -85,113 +65,75 @@ numpy
 tkinterdnd2
 ```
 
-Tkinter is included with most standard Python installations. On some Linux systems, it may need to be installed separately:
+Tkinter is included with most standard Python installations. If Tkinter is missing, install it using your operating system package manager.
+
+## Running the tool
+
+Run the main Python file:
 
 ```bash
-sudo apt-get install python3-tk
+python histochemistry_image_mask_editor.py
 ```
 
-## Running the App
+## Basic workflow
 
-```bash
-python blackgold_mask_editor.py
-```
+1. Open the program.
+2. Click Upload Image or drag and drop an image into the window.
+3. Adjust the threshold slider to detect dark pixels.
+4. Click Apply Threshold or Auto Threshold.
+5. Select one of the manual line types.
+6. Draw using the left mouse button.
+7. Erase unwanted areas using the right mouse button.
+8. Save the overlay, color mask, or binary mask.
 
-or, on some systems:
+## Output files
 
-```bash
-python3 blackgold_mask_editor.py
-```
+### Overlay image
 
-## How to Use
+The overlay image shows the original image with colored annotations applied on top.
 
-1. Start the program.
-2. Load an image by clicking **Upload Image** or dragging an image into the main window.
-3. Adjust the **Threshold** slider to select dark pixels.
-4. Click **Apply Threshold** to update the automatic red mask.
-5. Click **Auto Threshold** to estimate a threshold automatically.
-6. Choose a manual line type from the radio buttons.
-7. Draw on either the image panel or the mask panel:
-   - Left mouse drag: draw the selected manual line type.
-   - Right mouse drag: erase mask regions.
-   - Mouse wheel: increase or decrease brush size.
-8. Save outputs using:
-   - **Save Overlay**
-   - **Save Color Mask**
-   - **Save Binary Mask**
+### Color mask
 
-## Output Files
+The color mask uses a black background. The automatic dark pixel mask is red, and manual annotation types are shown in green, yellow, pink, blue, and brown.
 
-### Overlay Image
+### Binary mask
 
-The overlay image shows the original microscopy image with:
+The binary mask combines all detected and manually drawn regions into a single white mask on a black background.
 
-- automatic dark-pixel mask in red
-- manual Type 1 line in green
-- manual Type 2 line in yellow
-- manual Type 3 line in pink
-- manual Type 4 line in blue
-- manual Type 5 line in brown
+## Supported image formats
 
-### Color Mask
+* JPG
+* JPEG
+* PNG
+* TIF
+* TIFF
+* BMP
 
-The color mask uses a black background and the same class colors:
+## Suggested use cases
 
-- red = automatically detected dark pixels
-- green = manual Type 1
-- yellow = manual Type 2
-- pink = manual Type 3
-- blue = manual Type 4
-- brown = manual Type 5
-
-Manual annotations overwrite automatic red pixels when they overlap.
-
-### Combined Binary Mask
-
-The binary mask combines the automatic red mask and all manual line classes into one black-and-white mask:
-
-- white = selected/annotated region
-- black = background
-
-## Recommended Repository Structure
-
-```text
-HistoChemistry-Image-Mask-Editor/
-├── blackgold_mask_editor.py
-├── README.md
-├── requirements.txt
-├── LICENSE
-└── .gitignore
-```
-
-## Suggested GitHub Description
-
-```text
-A Python/Tkinter tool for histochemistry image masking, dark-pixel thresholding, manual multi-class annotation, and color/binary mask export.
-```
+* Histochemistry image annotation
+* Histology image masking
+* Microscopy image preprocessing
+* Manual correction of threshold based segmentation
+* Creating color coded annotation masks
+* Preparing masks for downstream image analysis
 
 ## Notes
 
-- This is a research-support and annotation tool, not a clinical diagnostic tool.
-- Thresholding results should be visually inspected and corrected manually when needed.
-- For quantitative publication workflows, keep the same threshold and brush settings across comparable image groups whenever possible.
-- Save original images separately and avoid overwriting raw microscopy data.
+Drag and drop requires the tkinterdnd2 package. If this package is not installed, the upload button will still work.
 
-## License
-
-This project is released under the MIT License. See the `LICENSE` file for details.
+Threshold based detection is intended as a simple first pass masking method. Manual correction should be used when image background, staining intensity, or tissue artifacts affect automatic detection.
 
 ## Citation
 
-If you use this tool in a research workflow, please cite the repository URL and version or commit hash used for analysis.
+If you use this tool in academic work, please cite the GitHub repository.
 
-Example:
+Suggested citation:
 
 ```text
-HistoChemistry Image Mask Editor, version 1.0. GitHub repository: https://github.com/YOUR_USERNAME/HistoChemistry-Image-Mask-Editor
+Ahmad, I. HistoChemistry Image Mask Editor: A Python Tkinter tool for threshold based image masking and manual multi class annotation. GitHub repository.
 ```
 
-## Author
+## License
 
-Developed by Intakhar Ahmad.
-
+This project is released under the MIT License.
